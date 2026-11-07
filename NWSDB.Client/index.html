@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NWSDB Customer Portal</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">&#128167;</span>
+      <div>
+        <h1>NWSDB Portal</h1>
+        <p id="roleLabel">National Water Supply &amp; Drainage Board</p>
+      </div>
+    </div>
+    <nav class="public-nav" id="publicNav">
+      <button type="button" class="nav-link" data-nav="home">Home</button>
+      <button type="button" class="nav-link" data-nav="aboutUs">About Us</button>
+      <button type="button" class="nav-link" data-nav="contactUs">Contact Us</button>
+      <button type="button" class="nav-link" data-nav="roleSelect">Login</button>
+      <button type="button" class="nav-link nav-link-cta" id="registerNavBtn">Register</button>
+    </nav>
+    <button id="logoutBtn" class="btn-switch hidden">Logout</button>
+  </header>
+
+  <!-- ==================== HOME ==================== -->
+  <div id="home" class="public-page">
+    <div class="hero">
+      <h2>Water Services Made Simple</h2>
+      <p>Manage your water bill, monitor your water usage, and make secure online payments
+         through the NWSDB Customer Portal.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn-primary js-customer-login-btn">Login to Customer Portal</button>
+        <button type="button" class="btn-outline" id="homeRegisterBtn">Create Customer Account</button>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section class="home-section">
+      <h2>Our Services</h2>
+      <div class="cards-grid">
+        <div class="info-card service-card">
+          <h3>Bill Management</h3>
+          <p>View your current water bill, billing period, amount and due date.</p>
+        </div>
+        <div class="info-card service-card">
+          <h3>Water Usage</h3>
+          <p>View your water consumption and usage history.</p>
+        </div>
+        <div class="info-card service-card">
+          <h3>Online Payments</h3>
+          <p>Pay your outstanding water bills securely through the NWSDB online portal.</p>
+        </div>
+        <div class="info-card service-card">
+          <h3>Payment History</h3>
+          <p>View your previous payment records and payment details.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== ABOUT US ==================== -->
+  <div id="aboutUs" class="public-page hidden">
+    <div class="static-page">
+      <h2>About NWSDB</h2>
+      <p>The National Water Supply &amp; Drainage Board (NWSDB) is responsible for
+         providing water supply and drainage services across Sri Lanka.</p>
+      <p>The NWSDB Online Portal provides a convenient digital platform for customers
+         to manage their water service information. Customers can view their profile,
+         check current bills, monitor water usage, view payment history, and make
+         simulated online bill payments.</p>
+      <p>NWSDB Staff use the system to manage customer information, generate bills,
+         record meter readings, and monitor payment records. Approved Partners can
+         access authorized services through the NWSDB API to support customer
+         bill-related operations.</p>
+      <p>The portal is designed to provide a simple and organized way to manage
+         customer, billing, water usage, and payment information while maintaining
+         role-based access to the system.</p>
+    </div>
+  </div>
+
+  <!-- ==================== CONTACT US ==================== -->
+  <div id="contactUs" class="public-page hidden">
+    <div class="static-page">
+      <h2>Contact Us</h2>
+      <p>Have a question about your account or this system? Reach out using the details
+         below, or send us a message.</p>
+
+      <div class="contact-columns">
+        <div class="detail-card">
+          <p><span class="label">Hotline:</span> 1939</p>
+          <p><span class="label">Email:</span> info@waterboard.lk</p>
+          <p><span class="label">Head Office:</span> Galle Road, Ratmalana, Sri Lanka</p>
+          <p><span class="label">Hours:</span> Mon&ndash;Fri, 8:30 AM &ndash; 4:15 PM</p>
+        </div>
+
+        <form id="contactForm" class="stacked-form" novalidate>
+          <div id="contactFormMessage" class="message hidden"></div>
+
+          <label for="contactName">Name</label>
+          <input type="text" id="contactName" required />
+          <label for="contactEmail">Email</label>
+          <input type="email" id="contactEmail" required />
+          <label for="contactSubject">Subject</label>
+          <input type="text" id="contactSubject" required />
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" rows="4" required></textarea>
+          <button type="submit" class="btn-primary" id="contactSubmitBtn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE SELECT SCREEN -->
+  <div id="roleSelect" class="role-select hidden">
+    <h2>Select your role to continue</h2>
+    <p class="section-hint">Choose how you'd like to use the NWSDB portal.</p>
+
+    <div class="role-cards">
+      <button class="role-card" data-role="customer">
+        
+        <h3>Customer</h3>
+        <p>View your bill, water usage, and make payments</p>
+      </button>
+      <button class="role-card" data-role="staff">
+        
+        <h3>NWSDB Staff</h3>
+        <p>Register connections, partners, bills and meter readings</p>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== AUTH SCREENS ==================== -->
+
+  <!-- CUSTOMER: Login / Register (Authenticate User) -->
+  <div id="customerAuth" class="role-select hidden">
+    <h2 id="customerAuthTitle">Customer Login</h2>
+    <p class="section-hint" id="customerAuthHint">Log in with your email and password.</p>
+    <div id="customerAuthMessage" class="message hidden"></div>
+
+    <form id="customerLoginForm" class="stacked-form auth-form">
+      <label for="loginCustomerEmail">Email Address</label>
+      <input type="email" id="loginCustomerEmail" placeholder="e.g. customer@email.com" required />
+
+      <label for="loginCustomerPassword">Password</label>
+      <div class="password-field">
+        <input type="password" id="loginCustomerPassword" required />
+        <button type="button" class="password-toggle" id="loginCustomerPasswordToggle" aria-label="Show password"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><line class="eye-slash" x1="3" y1="21" x2="21" y2="3"/></svg></button>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+    <p class="section-hint auth-toggle" id="toggleToRegister">
+      New customer?
+      <button type="button" id="showRegisterBtn" class="link-btn">Register Account</button>
+    </p>
+
+    <form id="customerRegisterForm" class="stacked-form auth-form hidden" novalidate>
+      <label for="regCustomerName">Name</label>
+      <input type="text" id="regCustomerName" />
+      <div class="field-error" id="regNameError" role="alert"></div>
+
+      <label for="regCustomerAddress">Address</label>
+      <input type="text" id="regCustomerAddress" />
+      <div class="field-error" id="regAddressError" role="alert"></div>
+
+      <label for="regCustomerPhone">Phone</label>
+      <input type="text" id="regCustomerPhone" placeholder="07XXXXXXXX" />
+      <div class="field-error" id="regPhoneError" role="alert"></div>
+
+      <label for="regCustomerEmail">Email Address</label>
+      <input type="email" id="regCustomerEmail" placeholder="e.g. customer@email.com" />
+      <div class="field-error" id="regEmailError" role="alert"></div>
+
+      <label for="regCustomerPassword">Choose a Password</label>
+      <div class="password-field">
+        <input type="password" id="regCustomerPassword" />
+        <button type="button" class="password-toggle" id="regCustomerPasswordToggle" aria-label="Show password"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><line class="eye-slash" x1="3" y1="21" x2="21" y2="3"/></svg></button>
+      </div>
+      <div class="field-error" id="regPasswordError" role="alert"></div>
+
+      <label for="regCustomerConfirmPassword">Confirm Password</label>
+      <div class="password-field">
+        <input type="password" id="regCustomerConfirmPassword" />
+        <button type="button" class="password-toggle" id="regCustomerConfirmPasswordToggle" aria-label="Show password"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><line class="eye-slash" x1="3" y1="21" x2="21" y2="3"/></svg></button>
+      </div>
+      <div class="field-error" id="regConfirmPasswordError" role="alert"></div>
+
+      <label class="terms-row" for="regCustomerTerms">
+        <input type="checkbox" id="regCustomerTerms" />
+        I agree to the Terms and Conditions
+      </label>
+      <div class="field-error" id="regTermsError" role="alert"></div>
+
+      <button type="submit" class="btn-primary">Register</button>
+    </form>
+
+    <p class="section-hint auth-toggle hidden" id="toggleToLogin">
+      Already have an account?
+      <button type="button" id="showLoginBtn" class="link-btn">Login</button>
+    </p>
+  </div>
+
+  <!-- STAFF: Login (Authenticate Staff) -->
+  <div id="staffAuth" class="role-select hidden">
+    <h2>Staff Login</h2>
+    <p class="section-hint">Log in with your NWSDB staff email and password.</p>
+    <div id="staffAuthMessage" class="message hidden"></div>
+
+    <form id="staffLoginForm" class="stacked-form auth-form">
+      <label for="loginStaffEmail">Email</label>
+      <input type="email" id="loginStaffEmail" placeholder="e.g. staff@nwsdb.lk" required />
+
+      <label for="loginStaffPassword">Password</label>
+      <div class="password-field">
+        <input type="password" id="loginStaffPassword" required />
+        <button type="button" class="password-toggle" id="loginStaffPasswordToggle" aria-label="Show password"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><line class="eye-slash" x1="3" y1="21" x2="21" y2="3"/></svg></button>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+
+  </div>
+
+  <!-- ==================== CUSTOMER PORTAL ==================== -->
+  <div id="customerPortal" class="portal hidden">
+    <nav class="tabs">
+      <button class="tab-btn active" data-portal="customerPortal" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="customer">Profile</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="bill">My Bills</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="usage">Water Usage</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="paymentHistory">Payment History</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="payment">Bill Payment</button>
+      <button class="tab-btn" data-portal="customerPortal" data-tab="support">Support</button>
+    </nav>
+
+    <main class="container">
+
+      <div id="messageBox" class="message hidden"></div>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="tab-panel active">
+        <h2>Dashboard</h2>
+
+        <div class="cards-grid">
+          <div class="info-card">
+            <h3>Customer</h3>
+            <p id="dashCustomerName">-</p>
+            <p class="section-hint" id="dashCustomerId"></p>
+          </div>
+          <div class="info-card">
+            <h3>Current Bill</h3>
+            <p id="dashBillAmount">-</p>
+            <p id="dashBillStatus"></p>
+            <p class="section-hint" id="dashBillDueDate"></p>
+            <button type="button" class="btn-outline btn-sm hidden" id="dashViewBillBtn" data-goto-tab="bill">View Bill</button>
+          </div>
+          <div class="info-card">
+            <h3>Latest Usage</h3>
+            <p id="dashUsage">-</p>
+            <p class="section-hint" id="dashUsagePeriod"></p>
+            <button type="button" class="btn-outline btn-sm hidden" id="dashViewUsageBtn" data-goto-tab="usage">View Usage</button>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions-buttons">
+            <button type="button" class="btn-outline" data-goto-tab="customer">View Profile</button>
+            <button type="button" class="btn-outline" data-goto-tab="payment">Pay Bill</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE DETAILS -->
+      <section id="customer" class="tab-panel">
+        <h2>Profile Details</h2>
+        <div id="profileMessage" class="message hidden"></div>
+        <div class="detail-card" id="customerDetailCard">
+          <p class="section-hint">Loading...</p>
+        </div>
+      </section>
+
+      <!-- MY BILLS (all outstanding bills, oldest first) -->
+      <section id="bill" class="tab-panel">
+        <h2>My Bills</h2>
+        <div id="billDetailCard">
+          <p class="section-hint">Loading...</p>
+        </div>
+      </section>
+
+      <!-- WATER USAGE -->
+      <section id="usage" class="tab-panel">
+        <h2>Water Usage History</h2>
+        <table class="data-table" id="usageTable">
+          <thead>
+            <tr>
+              <th>Bill ID</th>
+              <th>Billing Period</th>
+              <th>Units Consumed (m&sup3;)</th>
+              <th>Reading Date</th>
+              <th>Bill Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="usageTableBody">
+            <tr><td colspan="6" class="section-hint">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- PAYMENT HISTORY -->
+      <section id="paymentHistory" class="tab-panel">
+        <h2>Payment History</h2>
+        <table class="data-table" id="paymentHistoryTable">
+          <thead>
+            <tr>
+              <th>Payment ID</th>
+              <th>Bill ID</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Method</th>
+              <th>Paid By Partner</th>
+            </tr>
+          </thead>
+          <tbody id="paymentHistoryTableBody">
+            <tr><td colspan="6" class="section-hint">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- BILL PAYMENT (SIMULATED payment - demo only, no real payment gateway) -->
+      <section id="payment" class="tab-panel">
+        <h2>Bill Payment</h2>
+        <div class="detail-card">
+
+          <!-- Bill details + simulated card form -->
+          <div id="paymentFormView">
+            <div id="paymentMessage" class="message error hidden"></div>
+
+            <p><span class="label">Select Bill:</span> <select id="payBillSelect" class="pay-bill-select"></select></p>
+            <p class="section-hint pay-order-note hidden" id="payOrderNote"></p>
+
+            <p><span class="label">Bill ID:</span> <span id="payBillId">-</span></p>
+            <p><span class="label">Billing Period:</span> <span id="payBillPeriod">-</span></p>
+            <p><span class="label">Amount Due:</span> <span id="payBillAmount">-</span></p>
+            <p><span class="label">Due Date:</span> <span id="payBillDueDate">-</span></p>
+            <p><span class="label">Status:</span> <span id="payBillStatus" class="badge">-</span></p>
+
+            <form id="paymentForm" class="stacked-form" autocomplete="off" novalidate>
+              <label>Payment Method</label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="paymentMethod" value="Credit Card" /> Credit Card
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="paymentMethod" value="Debit Card" /> Debit Card
+                </label>
+              </div>
+
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" placeholder="Enter card number" inputmode="numeric" maxlength="23" autocomplete="off" />
+
+              <div class="card-row">
+                <div class="card-field">
+                  <label for="cardExpiry">Expiry Date</label>
+                  <input type="text" id="cardExpiry" placeholder="MM / YY" inputmode="numeric" maxlength="7" autocomplete="off" />
+                </div>
+                <div class="card-field">
+                  <label for="cardCvv">CVV</label>
+                  <input type="password" id="cardCvv" placeholder="***" inputmode="numeric" maxlength="4" autocomplete="off" />
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary" id="payBtn">Pay</button>
+            </form>
+          </div>
+
+          <!-- Nothing to pay (no outstanding bill / bill already paid) -->
+          <div id="paymentEmptyView" class="hidden">
+            <p class="section-hint" id="paymentEmptyText">Loading...</p>
+          </div>
+
+          <!-- Payment Successful! -->
+          <div id="paymentSuccessView" class="payment-success hidden">
+            <h3>Payment Successful!</h3>
+            <p><span class="label">Payment ID:</span> <span id="rcptPaymentId"></span></p>
+            <p><span class="label">Bill ID:</span> <span id="rcptBillId"></span></p>
+            <p><span class="label">Amount Paid:</span> <span id="rcptAmount"></span></p>
+            <p><span class="label">Payment Method:</span> <span id="rcptMethod"></span></p>
+            <p><span class="label">Paid By Partner:</span> <span id="rcptPaidBy"></span></p>
+            <div class="bill-actions">
+              <button type="button" class="btn-primary" data-goto-tab="paymentHistory">View Payment History</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="tab-panel">
+        <h2>Customer Support</h2>
+        <p class="section-hint">Need help? Send us a message and our staff will assist you.</p>
+
+        <div id="supportMessage" class="message hidden"></div>
+
+        <form id="supportForm" class="stacked-form" novalidate>
+          <label for="supportSubject">Subject</label>
+          <input type="text" id="supportSubject" required />
+
+          <label for="supportMessageText">Message</label>
+          <textarea id="supportMessageText" rows="4" required></textarea>
+
+          <button type="submit" class="btn-primary">Submit Request</button>
+        </form>
+
+        <h3>My Requests</h3>
+        <table class="data-table" id="supportRequestsTable">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="supportRequestsTableBody">
+            <tr><td colspan="3" class="section-hint">Loading...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== STAFF PORTAL ==================== -->
+  <div id="staffPortal" class="portal hidden">
+    <nav class="tabs">
+      <button class="tab-btn active" data-portal="staffPortal" data-tab="staffPartner">Register Partner</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffBill">Generate Bill</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffManageBills">Manage Bill Information</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffUsage">Record Meter Reading</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffPayments">View Payments</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffSupport">Support Requests</button>
+      <button class="tab-btn" data-portal="staffPortal" data-tab="staffContact">Contact Messages</button>
+    </nav>
+
+    <main class="container">
+      <div id="staffMessageBox" class="message hidden"></div>
+
+      <section id="staffPartner" class="tab-panel active">
+        <h2>Register New Partner</h2>
+
+        <div id="staffPartnerFormView">
+          <div class="partner-card">
+            <h3 class="partner-card-title">Partner Information</h3>
+            <p class="partner-card-sub">Enter the partner's details to register them with NWSDB.</p>
+
+            <form id="staffPartnerForm" class="stacked-form" novalidate>
+              <label for="newPartnerName">Partner Name</label>
+              <input type="text" id="newPartnerName" placeholder="e.g. QuickPay Lanka" autocomplete="off" />
+              <div class="field-error" id="partnerNameError" role="alert"></div>
+
+              <label for="newPartnerEmail">Contact Email</label>
+              <input type="email" id="newPartnerEmail" placeholder="e.g. partner@example.com" autocomplete="off" />
+              <div class="field-error" id="partnerEmailError" role="alert"></div>
+
+              <label for="newPartnerPhone">Phone Number</label>
+              <input type="tel" id="newPartnerPhone" placeholder="e.g. 011-2345678" autocomplete="off" />
+              <div class="field-error" id="partnerPhoneError" role="alert"></div>
+
+              <label for="newPartnerType">Partner Type / Category</label>
+              <select id="newPartnerType">
+                <option value="">Select a type...</option>
+                <option value="Payment Gateway">Payment Gateway</option>
+                <option value="Mobile App">Mobile App</option>
+                <option value="Bank">Bank</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="field-error" id="partnerTypeError" role="alert"></div>
+
+              <label for="newPartnerAddress">Business Address</label>
+              <input type="text" id="newPartnerAddress" placeholder="e.g. 42 Galle Road, Colombo 03" autocomplete="off" />
+
+              <label for="newPartnerRegNo">Business Registration No.</label>
+              <input type="text" id="newPartnerRegNo" placeholder="e.g. PV 00123456" autocomplete="off" />
+
+              <label for="newPartnerDescription">Description / Notes</label>
+              <textarea id="newPartnerDescription" rows="3" placeholder="Brief description of the partner's business..."></textarea>
+
+              <button type="submit" class="btn-primary">Register Partner</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="staffPartnerSuccessView" class="detail-card hidden">
+          <h3>Partner Registered Successfully</h3>
+          <p><span class="label">Partner ID:</span> <span id="newPartnerIdResult"></span></p>
+          <p><span class="label">API Key:</span> <code class="api-key-value" id="newPartnerApiKeyResult"></code></p>
+          <p class="section-hint">This is the only time the API key is shown &mdash; copy it now and store it securely. NWSDB cannot display it again.</p>
+          <div class="bill-actions">
+            <button type="button" class="btn-outline" id="copyPartnerApiKeyBtn">Copy API Key</button>
+            <button type="button" class="btn-primary" id="registerAnotherPartnerBtn">Register Another Partner</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="staffBill" class="tab-panel">
+        <h2>Generate Bill</h2>
+
+        <div id="staffBillFormView">
+          <form id="staffBillForm" class="stacked-form">
+            <label for="billCustomerId">Customer ID</label>
+            <input type="text" id="billCustomerId" placeholder="e.g. C001" required />
+
+            <label for="billPeriod">Billing Period</label>
+            <select id="billPeriod" required>
+              <option value="" selected disabled>Load billing periods first...</option>
+            </select>
+            <p class="section-hint" id="billPeriodHint"></p>
+
+            <button type="button" class="btn-outline" id="loadBillPeriodsBtn">Load Billing Periods</button>
+            <button type="submit" class="btn-primary">Generate Bill</button>
+          </form>
+        </div>
+
+        <div id="staffBillSuccessView" class="detail-card hidden">
+          <h3>Bill Generated Successfully</h3>
+          <p><span class="label">Bill ID:</span> <span id="genBillId"></span></p>
+          <p><span class="label">Customer ID:</span> <span id="genBillCustomerId"></span></p>
+          <p><span class="label">Billing Period:</span> <span id="genBillPeriod"></span></p>
+          <p><span class="label">Water Usage:</span> <span id="genBillUsage"></span></p>
+          <p><span class="label">Amount:</span> <span id="genBillAmount"></span></p>
+          <p><span class="label">Issued Date:</span> <span id="genBillIssuedDate"></span></p>
+          <p><span class="label">Due Date:</span> <span id="genBillDueDate"></span></p>
+          <p><span class="label">Status:</span> <span id="genBillStatus"></span></p>
+          <div class="bill-actions">
+            <button type="button" class="btn-primary" id="generateAnotherBillBtn">Generate Another Bill</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="staffManageBills" class="tab-panel">
+        <h2>Manage Bill Information</h2>
+        <p class="section-hint">View a consolidated list of all bills across every customer.</p>
+
+        <button id="staffLoadBillsBtn" class="btn-primary">Load All Bills</button>
+        <table class="data-table" id="staffBillsTable">
+          <thead>
+            <tr>
+              <th>Bill ID</th>
+              <th>Customer ID</th>
+              <th>Billing Period</th>
+              <th>Issued Date</th>
+              <th>Due Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="staffBillsTableBody">
+            <tr><td colspan="7" class="section-hint">Click "Load All Bills" to view.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="staffUsage" class="tab-panel">
+        <h2>Record Meter Reading</h2>
+
+        <div id="staffUsageFormView">
+          <form id="staffUsageForm" class="stacked-form" novalidate>
+            <label for="usageCustomerId">Customer ID</label>
+            <input type="text" id="usageCustomerId" placeholder="e.g. C001" />
+            <div class="field-error" id="usageCustomerIdError" role="alert"></div>
+
+            <label for="usagePeriod">Billing Period</label>
+            <input type="month" id="usagePeriod" />
+            <div class="field-error" id="usagePeriodError" role="alert"></div>
+
+            <label for="usageUnits">Units Consumed (m&sup3;)</label>
+            <input type="number" id="usageUnits" step="0.1" min="0" />
+            <div class="field-error" id="usageUnitsError" role="alert"></div>
+
+            <label for="usageDate">Reading Date</label>
+            <input type="date" id="usageDate" />
+            <div class="field-error" id="usageDateError" role="alert"></div>
+
+            <button type="submit" class="btn-primary">Record Reading</button>
+          </form>
+        </div>
+
+        <div id="staffUsageSuccessView" class="detail-card hidden">
+          <h3>Meter Reading Recorded Successfully</h3>
+          <p><span class="label">Customer ID:</span> <span id="recUsageCustomerId"></span></p>
+          <p><span class="label">Billing Period:</span> <span id="recUsagePeriod"></span></p>
+          <p><span class="label">Units Consumed:</span> <span id="recUsageUnits"></span></p>
+          <p><span class="label">Reading Date:</span> <span id="recUsageDate"></span></p>
+          <div class="bill-actions">
+            <button type="button" class="btn-primary" id="recordAnotherUsageBtn">Record Another Reading</button>
+          </div>
+        </div>
+      </section>
+      <section id="staffPayments" class="tab-panel">
+        <h2>View Payment Details</h2>
+        <p class="section-hint">Leave Customer ID blank to view payments for every customer, or enter one to view a single customer's payment history.</p>
+
+        <div class="filter-bar">
+          <input type="text" id="staffPaymentsCustomerId" placeholder="e.g. C001 (optional)" autocomplete="off" />
+          <button id="staffLoadPaymentsBtn" class="btn-primary">Load Payments</button>
+          <button type="button" id="staffClearPaymentsFilterBtn" class="btn-outline hidden">Show All</button>
+        </div>
+        <table class="data-table" id="staffPaymentsTable">
+          <thead>
+            <tr>
+              <th>Payment ID</th>
+              <th>Customer ID</th>
+              <th>Bill ID</th>
+              <th>Amount</th>
+              <th>Payment Method</th>
+              <th>Payment Date</th>
+              <th>Paid By Partner</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="staffPaymentsTableBody">
+            <tr><td colspan="8" class="section-hint">Click "Load Payments" to view.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="staffSupport" class="tab-panel">
+        <h2>Support Requests</h2>
+
+        <div id="staffSupportListView">
+          <button id="staffLoadSupportBtn" class="btn-primary">Load Requests</button>
+          <table class="data-table" id="staffSupportTable">
+            <thead>
+              <tr>
+                <th>Customer ID</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="staffSupportTableBody">
+              <tr><td colspan="5" class="section-hint">Click "Load Requests" to view.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="staffSupportDetailView" class="detail-card hidden">
+          <p><span class="label">Customer ID:</span> <span id="staffSupportCustomerId"></span></p>
+          <p><span class="label">Subject:</span> <span id="staffSupportSubject"></span></p>
+          <p><span class="label">Date:</span> <span id="staffSupportDate"></span></p>
+          <p><span class="label">Message:</span></p>
+          <p id="staffSupportMessageText"></p>
+
+          <form id="staffSupportUpdateForm" class="stacked-form" novalidate>
+            <label for="staffSupportStatus">Status</label>
+            <select id="staffSupportStatus">
+              <option value="New">New</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+
+            <label for="staffSupportResponse">Staff Response</label>
+            <textarea id="staffSupportResponse" rows="4" placeholder="Write a response for the customer..."></textarea>
+
+            <button type="submit" class="btn-primary">Save</button>
+          </form>
+
+          <div class="bill-actions">
+            <button type="button" class="btn-outline" id="staffSupportBackBtn">Back to List</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="staffContact" class="tab-panel">
+        <h2>Contact Messages</h2>
+
+        <div id="staffContactListView">
+          <button id="staffLoadContactBtn" class="btn-primary">Load Messages</button>
+          <table class="data-table" id="staffContactTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Date/Time</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="staffContactTableBody">
+              <tr><td colspan="6" class="section-hint">Click "Load Messages" to view.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="staffContactDetailView" class="detail-card hidden">
+          <p><span class="label">Name:</span> <span id="staffContactName"></span></p>
+          <p><span class="label">Email:</span> <span id="staffContactEmail"></span></p>
+          <p><span class="label">Subject:</span> <span id="staffContactSubject"></span></p>
+          <p><span class="label">Date/Time:</span> <span id="staffContactDate"></span></p>
+          <p><span class="label">Message:</span></p>
+          <p id="staffContactMessageText"></p>
+
+          <form id="staffContactUpdateForm" class="stacked-form" novalidate>
+            <label for="staffContactStatus">Status</label>
+            <select id="staffContactStatus">
+              <option value="New">New</option>
+              <option value="InProgress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+
+            <label for="staffContactResponse">Staff Response</label>
+            <textarea id="staffContactResponse" rows="4" placeholder="Write a response for the customer..."></textarea>
+
+            <button type="submit" class="btn-primary">Save</button>
+          </form>
+
+          <div class="bill-actions">
+            <button type="button" class="btn-outline" id="staffContactBackBtn">Back to List</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 National Water Supply &amp; Drainage Board. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

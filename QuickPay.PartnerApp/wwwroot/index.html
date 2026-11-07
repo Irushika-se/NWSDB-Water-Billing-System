@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuickPay Lanka - Bill Payments</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>QuickPay Lanka</h1>
+      <p>A third-party payment channel for NWSDB water bills</p>
+    </div>
+    <div class="topbar-right">
+      <span id="sessionPill" class="pill pill-wait hidden"></span>
+      <button type="button" class="btn btn-ghost hidden" id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="messageBox" class="message hidden"></div>
+
+    <!-- LOGIN -->
+    <section class="card" id="loginSection">
+      <h2>Log in to QuickPay</h2>
+      <p class="hint">This is a separate QuickPay Lanka account - its own email and password, not your NWSDB login. Your QuickPay account is linked to your NWSDB customer record on our side.</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="loginEmail">QuickPay Email</label>
+        <input type="email" id="loginEmail" class="field" placeholder="you@quickpay.lk" required autocomplete="username" />
+
+        <label for="loginPassword">QuickPay Password</label>
+        <div class="password-field">
+          <input type="password" id="loginPassword" class="field" placeholder="Password" required autocomplete="current-password" />
+          <button type="button" class="password-toggle" id="loginPasswordToggle" aria-label="Show password"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/><line class="eye-slash" x1="3" y1="21" x2="21" y2="3"/></svg></button>
+        </div>
+
+        <div id="loginErrors" class="message error hidden"></div>
+        <button type="submit" class="btn" id="loginBtn">Login</button>
+      </form>
+    </section>
+
+    <!-- DASHBOARD (shown once logged in) -->
+    <div id="dashboard" class="hidden">
+
+      <!-- My Current Bill -->
+      <section class="card">
+        <h2>My Current Bill</h2>
+        <div class="two-col">
+          <div>
+            <h3>Customer</h3>
+            <p><span class="label">Name</span> <span id="cName"></span></p>
+            <p><span class="label">Customer ID</span> <span id="cId"></span></p>
+            <p><span class="label">Latest usage</span> <span id="cUsage"></span></p>
+          </div>
+          <div>
+            <h3>Bill</h3>
+            <div id="billBox"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- All unpaid bills, oldest first -->
+      <section class="card">
+        <h2>Bills to Pay</h2>
+        <p class="hint">Bills must be paid in order, oldest first. Pay the first bill, then the next one becomes payable.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Order</th><th>Bill</th><th>Billing period</th><th>Amount</th><th>Due date</th><th>Status</th><th></th></tr></thead>
+            <tbody id="unpaidBody"><tr><td colspan="7" class="hint">No outstanding bills.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Pay Bill (SIMULATED - demo only, no real payment gateway) -->
+      <section class="card hidden" id="paySection">
+        <h2>Pay Bill</h2>
+        <p class="amount">Amount to pay: <strong id="payAmount"></strong></p>
+        <form id="payForm" autocomplete="off" novalidate>
+          <label>Payment method</label>
+          <div class="radio-row">
+            <label class="radio"><input type="radio" name="paymentMethod" value="Credit Card" /> Credit Card</label>
+            <label class="radio"><input type="radio" name="paymentMethod" value="Debit Card" /> Debit Card</label>
+          </div>
+
+          <label for="cardNumber">Card number</label>
+          <input type="text" id="cardNumber" class="field" placeholder="Enter card number" inputmode="numeric" maxlength="23" autocomplete="off" />
+
+          <div class="pay-row">
+            <div>
+              <label for="cardExpiry">Expiry date</label>
+              <input type="text" id="cardExpiry" class="field" placeholder="MM / YY" inputmode="numeric" maxlength="7" autocomplete="off" />
+            </div>
+            <div>
+              <label for="cardCvv">CVV</label>
+              <input type="password" id="cardCvv" class="field" placeholder="***" inputmode="numeric" maxlength="4" autocomplete="off" />
+            </div>
+          </div>
+
+          <div id="cardErrors" class="message error hidden"></div>
+          <button type="submit" class="btn btn-green" id="payBtn">Pay now</button>
+        </form>
+      </section>
+
+      <!-- Payment Success -->
+      <section class="card receipt hidden" id="receiptSection">
+        <h2>&#10003; Payment Successful</h2>
+        <p>NWSDB has confirmed this payment and marked the bill as <strong>Paid</strong>.</p>
+        <p><span class="label">Payment ID</span> <span id="rNo"></span></p>
+        <p><span class="label">Bill Number</span> <span id="rBill"></span></p>
+        <p><span class="label">Amount Paid</span> <span id="rAmount"></span></p>
+        <p><span class="label">Payment Date</span> <span id="rDate"></span></p>
+        <p><span class="label">Payment Status</span> <span id="rStatus" class="badge paid"></span></p>
+        <button type="button" class="btn no-print" id="printReceiptBtn">Print Receipt</button>
+      </section>
+
+      <!-- Payment History -->
+      <section class="card">
+        <h2>Payment History</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Payment ID</th><th>Bill</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody id="paymentHistoryBody"><tr><td colspan="6" class="hint">No payments yet.</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

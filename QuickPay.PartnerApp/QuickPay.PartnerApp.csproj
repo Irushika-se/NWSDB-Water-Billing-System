@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- QuickPay Lanka: a THIRD-PARTY partner system. It is completely separate from the NWSDB
+       projects (own server, own web page, own port) and only talks to NWSDB through the NWSDB API.
+       It needs no extra NuGet packages. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

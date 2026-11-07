@@ -1,0 +1,931 @@
+:root {
+  --primary: #0b6e99;
+  --primary-dark: #084f70;
+  --accent: #17a2b8;
+  --bg: #f4f8fa;
+  --card-bg: #ffffff;
+  --border: #dbe6ea;
+  --text: #22333b;
+  --success: #1e7e34;
+  --error: #b02a37;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+  color: #fff;
+  padding: 18px 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.brand-icon {
+  font-size: 34px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  background: var(--primary-dark);
+  padding: 0 16px;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #dceef5;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tab-btn.active {
+  color: #fff;
+  border-bottom: 3px solid var(--accent);
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px 40px;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+h2 {
+  color: var(--primary-dark);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.section-hint {
+  color: #6b7c85;
+  font-size: 14px;
+}
+
+.lookup-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.lookup-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.info-card, .detail-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.info-card h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.info-card p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info-card .section-hint {
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.info-card .btn-sm {
+  margin-top: 10px;
+}
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+.quick-actions {
+  margin-top: 24px;
+}
+
+.quick-actions h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: var(--primary-dark);
+}
+
+.quick-actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-card p {
+  margin: 6px 0;
+  font-size: 15px;
+}
+
+.detail-card .label {
+  color: #6b7c85;
+  display: inline-block;
+  min-width: 140px;
+}
+
+.api-key-value {
+  display: inline-block;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  background: #eef3f5;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  word-break: break-all;
+}
+
+.bill-actions {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.filter-bar input[type="text"] {
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  max-width: 220px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.data-table th, .data-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.data-table th {
+  background: var(--primary);
+  color: #fff;
+}
+
+#paymentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 380px;
+  margin-top: 16px;
+}
+
+#paymentForm label {
+  font-size: 13px;
+  color: #6b7c85;
+  margin-top: 8px;
+}
+
+#paymentForm input, #paymentForm select {
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+#paymentForm button {
+  margin-top: 16px;
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.message.success {
+  background: #e6f4ea;
+  color: var(--success);
+  border: 1px solid #b9dfc4;
+}
+
+.message.error {
+  background: #fbe9eb;
+  color: var(--error);
+  border: 1px solid #f0b7bd;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.unpaid { background: #fff3cd; color: #7a5b00; }
+.badge.overdue { background: #fbe9eb; color: var(--error); }
+.badge.paid { background: #e6f4ea; color: var(--success); }
+
+.badge.new { background: #fff3cd; color: #7a5b00; }
+.badge.inprogress { background: #d9ecf5; color: var(--primary-dark); }
+.badge.resolved { background: #e6f4ea; color: var(--success); }
+
+.footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 12px;
+  color: #8a9aa2;
+}
+
+/* ---------- Role select screen ---------- */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-switch {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-switch:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.role-select {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.role-select h2 {
+  border: none;
+  color: var(--primary-dark);
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.role-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 18px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(11, 110, 153, 0.15);
+  border-color: var(--primary);
+}
+
+.role-icon {
+  font-size: 36px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.role-card h3 {
+  margin: 6px 0;
+  color: var(--primary-dark);
+}
+
+.role-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7c85;
+}
+
+/* ---------- Staff / Partner stacked forms ---------- */
+
+.stacked-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 360px;
+  margin-top: 16px;
+}
+
+.stacked-form label {
+  font-size: 13px;
+  color: #6b7c85;
+  margin-top: 8px;
+}
+
+.stacked-form input, .stacked-form select, .stacked-form textarea {
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.stacked-form button {
+  margin-top: 16px;
+}
+
+.gateway-note {
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ---------- Bill Payment (simulated payment form) ---------- */
+
+#paymentForm .radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#paymentForm .radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+#paymentForm .radio-option input {
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.card-row {
+  display: flex;
+  gap: 16px;
+}
+
+.card-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+#paymentForm .gateway-note {
+  text-align: center;
+}
+
+.payment-success {
+  text-align: center;
+}
+
+.payment-success h3 {
+  margin: 4px 0 16px;
+  font-size: 20px;
+  color: var(--success);
+}
+
+.payment-success .label {
+  text-align: right;
+  margin-right: 6px;
+}
+
+#paymentMessage {
+  margin-bottom: 12px;
+}
+
+/* ---------- Auth screens (Login / Register / Authenticate) ---------- */
+.auth-form {
+  max-width: 380px;
+  margin: 0 auto 1rem;
+}
+
+.auth-form h3 {
+  margin-top: 1.5rem;
+}
+
+.auth-toggle {
+  text-align: center;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+}
+
+.password-field input {
+  flex: 1;
+  padding-right: 36px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 4px;
+  color: #6b7c85;
+}
+
+/* ---------- Customer Register form only ---------- */
+
+/* The shared ".stacked-form button" rule adds a top margin that pushed the eye icons down;
+   these overrides fix the show/hide-password icon in every password field (Login + Register). */
+.password-field .password-toggle {
+  margin-top: 0;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7c85;
+}
+
+.password-field .password-toggle:hover,
+.password-field .password-toggle:focus-visible {
+  color: var(--primary);
+}
+
+.password-field .password-toggle svg {
+  display: block;
+}
+
+/* Hide every browser's own built-in reveal (eye) button so only our custom eye icon shows.
+   Edge/IE use -ms-reveal, Firefox uses -moz-reveal, Chrome/Safari show a credentials
+   auto-fill button (key/eye icon) — without this, some browsers show TWO eye icons. */
+.password-field input::-ms-reveal,
+.password-field input::-ms-clear {
+  display: none;
+}
+
+.password-field input::-moz-reveal {
+  display: none;
+}
+
+.password-field input::-webkit-credentials-auto-fill-button,
+.password-field input::-webkit-strong-password-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
+/* Eye icon by default; a slash is drawn across it while the password is visible. */
+.password-field .eye-slash {
+  display: none;
+}
+
+.password-field .password-toggle[aria-label="Hide password"] .eye-slash {
+  display: inline;
+}
+
+#customerRegisterForm .terms-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+#customerRegisterForm .terms-row input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.field-error {
+  color: var(--error);
+  font-size: 13px;
+}
+
+.field-error:empty {
+  display: none;
+}
+
+#customerRegisterForm input.input-invalid,
+#staffPartnerForm input.input-invalid,
+#staffUsageForm input.input-invalid,
+#profileEditForm input.input-invalid {
+  border-color: var(--error);
+}
+
+/* ---------- Profile Details: Edit Profile ---------- */
+
+#profileEditForm input[readonly] {
+  background: #eef3f5;
+  color: #6b7c85;
+  cursor: not-allowed;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.profile-actions .btn-primary,
+.profile-actions .btn-outline {
+  margin-top: 0;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #0b6ea8;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.auth-back {
+  display: block;
+  margin: 1.5rem auto 0;
+  /* .btn-switch is white-on-transparent (made for the dark header); on these light
+     pages it was invisible, so use the same colours as the .btn-outline buttons. */
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.auth-back:hover {
+  background: rgba(11, 110, 153, 0.08);
+}
+
+/* ---------- Public nav + Home/About/Contact pages ---------- */
+
+.public-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  background: transparent;
+  border: none;
+  color: #dceef5;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-link-cta {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-weight: 600;
+}
+
+.public-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 16px 40px;
+}
+
+.hero {
+  text-align: center;
+  padding: 30px 16px 10px;
+}
+
+.hero h2 {
+  border: none;
+  color: var(--primary-dark);
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 0 auto 20px;
+  color: #55666e;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-outline:hover {
+  background: rgba(11, 110, 153, 0.08);
+}
+
+.static-page p {
+  line-height: 1.6;
+  color: #3d4a50;
+}
+
+/* ---------- Home page: Services section ---------- */
+
+.home-section {
+  margin-top: 40px;
+}
+
+.home-section h2 {
+  font-size: 20px;
+}
+
+.service-card {
+  text-align: center;
+}
+
+.service-card h3 {
+  margin-top: 4px;
+}
+
+.contact-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.contact-columns textarea {
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* ---------- Staff two-column forms (e.g. Generate vs Edit Bill) ---------- */
+
+.form-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.form-columns h3 {
+  margin-top: 0;
+  font-size: 15px;
+  color: var(--primary-dark);
+}
+
+/* ---------- My Bills page ---------- */
+.bills-summary {
+  margin-bottom: 16px;
+  border-left: 4px solid var(--primary);
+}
+
+.bills-summary .summary-total {
+  margin: 4px 0 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.bills-summary p {
+  margin: 4px 0;
+}
+
+.bill-item {
+  margin-bottom: 14px;
+}
+
+.bill-item .bill-actions {
+  text-align: left;
+}
+
+.bill-item .bill-wait-note {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+button:disabled.btn-primary {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pay-bill-select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 100%;
+}
+
+.pay-order-note {
+  color: var(--error);
+  margin: 4px 0 10px;
+}
+
+/* ---------- Staff: Register New Partner page (look only; no behaviour) ---------- */
+
+#staffPartner .partner-card,
+#staffPartnerSuccessView {
+  max-width: 520px;
+  margin: 24px auto 0;
+}
+
+#staffPartner .partner-card {
+  padding: 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(8, 79, 112, 0.08);
+}
+
+.partner-card-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: var(--primary-dark);
+}
+
+.partner-card-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7c85;
+}
+
+#staffPartnerForm {
+  max-width: none;
+  margin-top: 8px;
+  gap: 4px;
+}
+
+#staffPartnerForm label {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+#staffPartnerForm input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#staffPartnerForm input:focus:not(.input-invalid) {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+}
+
+#staffPartnerForm .btn-primary {
+  width: 100%;
+  margin-top: 22px;
+  padding: 12px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+.partner-card-note {
+  margin: 16px 0 0;
+  font-size: 12.5px;
+  text-align: center;
+  color: #6b7c85;
+}
+
+@media (max-width: 480px) {
+  #staffPartner .partner-card {
+    margin-top: 16px;
+    padding: 20px 16px;
+  }
+
+  #staffPartnerForm input {
+    font-size: 16px; /* avoids the automatic zoom on phones */
+  }
+}

@@ -1,0 +1,30 @@
+@host = http://localhost:5094
+
+### Customer login (C001, C002 or C003 - password pass123)
+POST {{host}}/api/auth/customer/login
+Content-Type: application/json
+
+{ "customerId": "C003", "password": "pass123" }
+
+### Staff login
+POST {{host}}/api/auth/staff/login
+Content-Type: application/json
+
+{ "email": "staff@nwsdb.lk", "password": "staff123" }
+
+### Partner login (this is exactly what QuickPay.PartnerApp does with its API key)
+POST {{host}}/api/auth/partner/authenticate
+Content-Type: application/json
+
+{ "partnerId": "P001", "apiKey": "pk_quickpay_001" }
+
+### Paste the token from a login response below to try the protected endpoints
+@token = PASTE_TOKEN_HERE
+
+### C003's current bill
+GET {{host}}/api/bill/customer/C003/current
+Authorization: Bearer {{token}}
+
+### C003's water usage
+GET {{host}}/api/waterusage/customer/C003
+Authorization: Bearer {{token}}
